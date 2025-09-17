@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Callable, Optional
+import inspect
 
 import torch
 from torch.utils.data import Dataset
@@ -71,14 +72,14 @@ class RationaleClassifier:
         early_stopping_patience: Optional[int] = None,
         pad_to_multiple_of: Optional[int] = None,
     ) -> Trainer:
-        args = TrainingArguments(
+        eval_strategy = "steps" if eval_dataset is not None else "no"
+        args_kwargs = dict(
             output_dir=output_dir,
             learning_rate=lr,
             num_train_epochs=epochs,
             per_device_train_batch_size=batch_size,
             per_device_eval_batch_size=batch_size,
             weight_decay=wd,
-            evaluation_strategy="steps" if eval_dataset is not None else "no",
             eval_steps=eval_steps,
             save_strategy="steps",
             save_steps=save_steps,
@@ -90,6 +91,12 @@ class RationaleClassifier:
             seed=seed,
             dataloader_num_workers=num_workers,
         )
+        init_params = inspect.signature(TrainingArguments.__init__).parameters
+        if "eval_strategy" in init_params:
+            args_kwargs["eval_strategy"] = eval_strategy
+        elif "evaluation_strategy" in init_params:
+            args_kwargs["evaluation_strategy"] = eval_strategy
+        args = TrainingArguments(**args_kwargs)
         data_collator = DataCollatorWithPadding(self.tokenizer, pad_to_multiple_of=pad_to_multiple_of)
         trainer = Trainer(
             model=self.model,
