@@ -1,0 +1,9 @@
+pyyaml>=6.0
+ijson>=3.2
+tqdm>=4.65
+numpy>=1.24
+sentence-transformers>=2.2
+transformers>=4.40
+datasets>=2.18
+accelerate>=0.27
+scikit-learn>=1.3

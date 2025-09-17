@@ -1,0 +1,36 @@
+system:
+  name: "ViFact"
+  version: "0.1.0"
+  device: "auto"  # cpu|cuda|auto
+  log_level: "INFO"
+
+data:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  sample_dir: "data/sample"
+  shards:
+    enabled: true
+    shard_size: 50000
+    prefix: "shard_"
+
+loader:
+  input_format: "auto"   # auto|json|jsonl
+  encoding: "utf-8"
+  gzip: false
+
+retrieval:
+  bm25:
+    k1: 1.2
+    b: 0.75
+  dense:
+    model_name: "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+    batch_size: 64
+
+preprocess:
+  normalize_unicode: true
+  strip_whitespace: true
+  lower: false
+
+validation:
+  require_fields: ["claim", "context", "verdict"]
+  verdict_values: ["SUPPORTED", "REFUTED", "NEI"]

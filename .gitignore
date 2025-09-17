@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+data
+# Environments
+.env
+.env.*
+.venv/
+venv/
+
+# Data outputs (keep sample fixtures committed)
+data/processed/
+data/corpus/
+
+# Models and indexes
+models/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python build and tooling
+build/
+dist/
+*.egg-info/
+.python-version
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+coverage.xml
+.coverage.*
+.cache/
+
+# Editors/IDE
+.vscode/
+.idea/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Logs & temp
+logs/
+*.log
+*.tmp
+tmp/
